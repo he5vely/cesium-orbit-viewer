@@ -66,7 +66,7 @@ import { deg2rad, rad2deg } from '../../utils/coordinates.js'
 const rad = deg2rad
 const deg = rad2deg
 
-defineEmits(['compute'])
+const emit = defineEmits(['compute'])
 
 const currentIdx = ref(0)
 const satParams = reactive([
@@ -98,6 +98,7 @@ function addSat() {
 function removeSat(i) {
   satParams.splice(i, 1)
   if (currentIdx.value >= satParams.length) currentIdx.value = satParams.length - 1
+  emit('compute')
 }
 
 async function loadTLE() {
