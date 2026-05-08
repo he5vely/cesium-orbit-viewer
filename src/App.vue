@@ -57,7 +57,12 @@ const errorChartRef = ref(null)
 const panelOpen = ref(false)
 
 let ephemerisData = { rinex: [], sp3: [] }
-function onEphemerisData(data) { ephemerisData = data }
+function onEphemerisData(data) {
+  ephemerisData = data
+  if (store.cesiumViewer && store.mode === 'ephemeris') {
+    setTimeout(() => onEphemerisCompute(), 500)
+  }
+}
 
 // Mobile touch
 let touchStartY = 0
