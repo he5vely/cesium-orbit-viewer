@@ -36,24 +36,30 @@ body {
 }
 .control-panel.collapsed {
   transform: translateX(-260px);
-  opacity: 0.6;
+  opacity: 0;
+  pointer-events: none;
 }
 
 /* scrollbar */
 .control-panel::-webkit-scrollbar { width: 3px; }
 .control-panel::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
 
-/* Toggle button */
+/* Toggle button — always visible */
 .panel-toggle {
-  position: absolute; top: 10px; right: -12px;
-  width: 24px; height: 24px; border-radius: 6px;
+  position: absolute; top: 10px; right: -14px;
+  width: 26px; height: 26px; border-radius: 6px;
   background: var(--bg-panel); border: 1px solid var(--border);
   color: var(--accent); cursor: pointer; font-size: 10px;
   z-index: 11; display: flex; align-items: center; justify-content: center;
   min-height: 0; backdrop-filter: blur(16px);
   transition: background 0.2s;
+  pointer-events: auto;
 }
 .panel-toggle:hover { background: rgba(0, 229, 255, 0.1); }
+.control-panel.collapsed .panel-toggle {
+  position: fixed; top: 16px; left: 16px;
+  background: var(--bg-panel); border-color: var(--border-glow);
+}
 .panel-handle { display: none; }
 
 /* ===== Mobile ===== */
