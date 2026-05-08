@@ -13,12 +13,28 @@ body {
   padding: 12px; border-radius: 10px; border: 1px solid #444;
   z-index: 10; overflow-y: auto; font-size: 12px;
   display: flex; flex-direction: column; gap: 4px;
+  transition: width 0.3s ease, padding 0.3s ease;
+}
+
+/* Collapsed state */
+.control-panel.collapsed {
+  width: 42px;
+  padding: 12px 6px;
 }
 
 .control-panel::-webkit-scrollbar { width: 4px; }
 .control-panel::-webkit-scrollbar-thumb { background: #555; border-radius: 2px; }
 
 .panel-handle { display: none; }
+
+.panel-toggle {
+  position: absolute; top: 8px; right: 6px;
+  background: none; border: none; color: #888; cursor: pointer;
+  font-size: 12px; padding: 4px; z-index: 2; line-height: 1;
+  min-height: 0; transition: color 0.2s;
+}
+.panel-toggle:hover { color: #0ff; }
+.panel-content { transition: opacity 0.15s ease; }
 
 /* Mobile */
 @media (max-width: 768px) {
@@ -29,6 +45,8 @@ body {
     transition: transform 0.3s ease;
   }
   .control-panel.open { transform: translateY(0); }
+  .control-panel.collapsed { transform: translateY(calc(100% - 48px)); }
+  .panel-toggle { display: none; }
   .panel-handle {
     display: flex; justify-content: center; padding: 8px 0;
     cursor: pointer; position: sticky; top: 0; background: inherit; z-index: 1;

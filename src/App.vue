@@ -3,29 +3,34 @@
     <CesiumViewer ref="cesiumRef" />
     <div class="version-badge">{{ VERSION }}</div>
 
-    <div :class="['control-panel', { open: panelOpen }]"
+    <div :class="['control-panel', { open: panelOpen, collapsed: panelCollapsed }]"
          @touchstart.passive="onTouchStart" @touchend="onTouchEnd">
       <div class="panel-handle" @click="panelOpen = !panelOpen"></div>
+      <button class="panel-toggle" @click="panelCollapsed = !panelCollapsed" :title="panelCollapsed ? '展开' : '收起'">
+        {{ panelCollapsed ? '◀' : '▶' }}
+      </button>
 
-      <ModeSelector @modeChange="onModeChange" />
+      <div class="panel-content" v-show="!panelCollapsed">
+        <ModeSelector @modeChange="onModeChange" />
 
-      <!-- Mode 1: State Vector -->
-      <StateVectorPanel v-if="store.mode === 'stateVector'" @compute="onStateVectorCompute" />
+        <!-- Mode 1: State Vector -->
+        <StateVectorPanel v-if="store.mode === 'stateVector'" @compute="onStateVectorCompute" />
 
-      <!-- Mode 2: Orbital Elements -->
-      <template v-if="store.mode === 'orbital'">
-        <OrbitalPanel ref="orbitalPanelRef" @compute="onOrbitalCompute" />
-        <OrbitForecast @forecast="onForecast" />
-        <ErrorChart ref="errorChartRef" />
-      </template>
+        <!-- Mode 2: Orbital Elements -->
+        <template v-if="store.mode === 'orbital'">
+          <OrbitalPanel ref="orbitalPanelRef" @compute="onOrbitalCompute" />
+          <OrbitForecast @forecast="onForecast" />
+          <ErrorChart ref="errorChartRef" />
+        </template>
 
-      <!-- Mode 3: Ephemeris -->
-      <EphemerisPanel v-if="store.mode === 'ephemeris'"
-        @compute="onEphemerisCompute" @dataReady="onEphemerisData" />
+        <!-- Mode 3: Ephemeris -->
+        <EphemerisPanel v-if="store.mode === 'ephemeris'"
+          @compute="onEphemerisCompute" @dataReady="onEphemerisData" />
 
-      <SatelliteList />
-      <CoordDisplay />
-      <TimeControls @togglePlay="onTogglePlay" @export="onExport" />
+        <SatelliteList />
+        <CoordDisplay />
+        <TimeControls @togglePlay="onTogglePlay" @export="onExport" />
+      </div>
     </div>
   </div>
 </template>
@@ -57,6 +62,7 @@ const cesiumRef = ref(null)
 const orbitalPanelRef = ref(null)
 const errorChartRef = ref(null)
 const panelOpen = ref(false)
+const panelCollapsed = ref(false)
 
 let ephemerisData = { rinex: [], sp3: [] }
 function onEphemerisData(data) {
@@ -98,6 +104,7 @@ function clearAndDraw(orbits) {
     const satOrbits = orbits.filter(o => o.prn === sat.prn)
     if (satOrbits.length < 2) return
     const positions = satOrbits.map(o => Cesium.Cartesian3.fromElements(o.x, o.y, o.z))
+    positions.push(positions[0].clone())  // force visual closure
     const color = Cesium.Color.fromCssColorString(sat.color)
 
     // Glow layer — wider, translucent solid line
@@ -144,15 +151,31 @@ function updatePositions() {
   store.satellites.forEach((sat, i) => {
     const orbits = store.allOrbits.filter(o => o.prn === sat.prn)
     if (orbits.length < 2) return
+
+    // Find bracket: orbits[idx].time <= t < orbits[idx+1].time
     let idx = orbits.findIndex(o => o.time.getTime() > t)
     if (idx <= 0) idx = 1
     if (idx >= orbits.length) idx = orbits.length - 1
-    const o = orbits[idx]
-    if (sat.pointEntity) sat.pointEntity.position = Cesium.Cartesian3.fromElements(o.x, o.y, o.z)
+
+    const prev = orbits[idx - 1]
+    const next = orbits[idx]
+    const t0 = prev.time.getTime()
+    const t1 = next.time.getTime()
+    const frac = t1 > t0 ? (t - t0) / (t1 - t0) : 0
+    const clamped = Math.max(0, Math.min(1, frac))
+
+    const x = prev.x + (next.x - prev.x) * clamped
+    const y = prev.y + (next.y - prev.y) * clamped
+    const z = prev.z + (next.z - prev.z) * clamped
+
+    if (sat.pointEntity) {
+      sat.pointEntity.position = Cesium.Cartesian3.fromElements(x, y, z)
+    }
     if (i === 0) {
-      store.currentOrbit = o
-      store.currentBLH = ecef2blh(o.x, o.y, o.z)
-      store.currentJ2000 = ecef2j2000(o.x, o.y, o.z, o.time)
+      const interpOrbit = { prn: sat.prn, time: store.currentTime, x, y, z }
+      store.currentOrbit = interpOrbit
+      store.currentBLH = ecef2blh(x, y, z)
+      store.currentJ2000 = ecef2j2000(x, y, z, store.currentTime)
     }
   })
 }
