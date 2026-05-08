@@ -8,6 +8,7 @@
         :class="['sat-tab', { active: currentIdx === i }]"
         @click="currentIdx = i">
         {{ sat.prn || '卫星' + (i+1) }}
+        <span class="del-sat" @click.stop="removeSat(i)" v-if="satParams.length > 1" title="删除">×</span>
       </button>
       <button class="sat-tab add-btn" @click="addSat" v-if="satParams.length < 5">+</button>
     </div>
@@ -94,6 +95,11 @@ function addSat() {
   satParams.push({ prn: 'SAT' + n, a: 7100 + n*100, e: 0.001, i: 1.7 + n*0.01, raan: n*1.5, argp: 0 })
 }
 
+function removeSat(i) {
+  satParams.splice(i, 1)
+  if (currentIdx.value >= satParams.length) currentIdx.value = satParams.length - 1
+}
+
 async function loadTLE() {
   const lines = tleInput.value.split('\n').filter(s => s.trim())
   if (lines.length < 2) { alert('请输入完整的 TLE 两行根数'); return }
@@ -127,6 +133,8 @@ defineExpose({ satParams, currentIdx })
 }
 .sat-tab.active { background: #0055aa; color: #fff; border-color: #0088ff; }
 .sat-tab.add-btn { font-weight: bold; }
+.del-sat { margin-left: 4px; color: #f66; font-size: 14px; line-height: 1; vertical-align: middle; }
+.del-sat:hover { color: #f00; }
 .slider-group { display: flex; flex-direction: column; gap: 6px; }
 .slider-item { display: flex; flex-direction: column; gap: 2px; }
 .slider-item label { color: #fc0; font-size: 11px; }

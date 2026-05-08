@@ -1,6 +1,7 @@
 <template>
   <div class="app-root">
     <CesiumViewer ref="cesiumRef" />
+    <div class="version-badge">{{ VERSION }}</div>
 
     <div :class="['control-panel', { open: panelOpen }]"
          @touchstart.passive="onTouchStart" @touchend="onTouchEnd">
@@ -46,6 +47,7 @@ import { generateStateVectorOrbit } from './engines/stateVector.js'
 import { generateOrbitalOrbit, forecastPoints } from './engines/orbitalElements.js'
 import { generateEphemerisOrbit, calcBroadcast, calcSP3, calcErrors, exportCSV, exportJSON } from './engines/ephemeris.js'
 import { ecef2blh, ecef2j2000 } from './utils/coordinates.js'
+import { VERSION } from './version.js'
 import './assets/main.css'
 
 const store = createStore()
@@ -233,4 +235,8 @@ onUnmounted(() => { store.stopPlay() })
 
 <style scoped>
 .app-root { width: 100%; height: 100%; position: relative; overflow: hidden; }
+.version-badge {
+  position: absolute; bottom: 6px; right: 10px; z-index: 20;
+  color: rgba(255,255,255,0.3); font-size: 11px; pointer-events: none;
+}
 </style>

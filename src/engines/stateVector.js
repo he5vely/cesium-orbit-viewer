@@ -1,4 +1,4 @@
-import { GM } from '../utils/constants.js'
+import { GM, OMEGA_E } from '../utils/constants.js'
 
 function dynamics(t, state) {
   const [x, y, z, vx, vy, vz] = state
@@ -38,7 +38,17 @@ export function generateStateVectorOrbit(initialState, step, prn) {
   let t = 0
   let y = [...state0]
 
-  result.push({ prn, time: new Date(startTime), x: y[0], y: y[1], z: y[2] })
+  const toEcef = (t, x, y, z) => {
+    const theta = OMEGA_E * t
+    const cosT = Math.cos(theta), sinT = Math.sin(theta)
+    return {
+      x: x * cosT + y * sinT,
+      y: -x * sinT + y * cosT,
+      z
+    }
+  }
+
+  result.push({ prn, time: new Date(startTime), ...toEcef(0, y[0], y[1], y[2]) })
 
   while (t < duration) {
     y = rk45Step(dynamics, t, y, step)
@@ -46,15 +56,14 @@ export function generateStateVectorOrbit(initialState, step, prn) {
     result.push({
       prn,
       time: new Date(startTime.getTime() + t * 1000),
-      x: y[0], y: y[1], z: y[2]
+      ...toEcef(t, y[0], y[1], y[2])
     })
   }
 
-  // Close the orbit by adding one more point at exactly the period
   result.push({
     prn,
     time: new Date(startTime.getTime() + duration * 1000),
-    x: y[0], y: y[1], z: y[2]
+    ...toEcef(duration, y[0], y[1], y[2])
   })
 
   return result

@@ -26,6 +26,7 @@
 import { ref, computed, onMounted } from 'vue'
 import { parseRinexNavigation } from '../../parsers/rinex.js'
 import { parseSP3 } from '../../parsers/sp3.js'
+import { demoBroadcast, generateDemoSP3 } from '../../data/demoEphemeris.js'
 
 const emit = defineEmits(['compute', 'dataReady'])
 
@@ -41,30 +42,15 @@ function emitData() {
   emit('dataReady', { rinex: [...rinexData.value], sp3: [...sp3Data.value] })
 }
 
-onMounted(async () => {
+onMounted(() => {
   if (hasData.value) return
   loading.value = true
-  try {
-    const [navRes, sp3Res] = await Promise.all([
-      fetch('sample.nav'),
-      fetch('sample.sp3')
-    ])
-    if (navRes.ok) {
-      const navText = await navRes.text()
-      rinexData.value = parseRinexNavigation(navText)
-      rinexName.value = 'sample.nav (示例)'
-    }
-    if (sp3Res.ok) {
-      const sp3Text = await sp3Res.text()
-      sp3Data.value = parseSP3(sp3Text)
-      sp3Name.value = 'sample.sp3 (示例)'
-    }
-    if (hasData.value) emitData()
-  } catch (e) {
-    console.warn('自动加载示例数据失败，请手动上传', e)
-  } finally {
-    loading.value = false
-  }
+  rinexData.value = demoBroadcast
+  sp3Data.value = generateDemoSP3()
+  rinexName.value = 'GPS示例 (G01-G03)'
+  sp3Name.value = 'SP3示例'
+  loading.value = false
+  if (hasData.value) emitData()
 })
 
 async function onRinex(e) {
