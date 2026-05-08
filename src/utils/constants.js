@@ -1,0 +1,6 @@
+export const GM = 3.986004418e14
+export const OMEGA_E = 7.2921151467e-5
+export const RE = 6378137.0
+export const F = 1 / 298.257223563
+export const E2 = 2 * F - F * F
+export const CESIUM_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI0Y2M0MDEyOC1mNjI2LTRjMTAtYmRmYi05OTU5ZjFhYTM0MTciLCJpZCI6MzQ5OTYzLCJpYXQiOjE3NjAzNDY0Njd9.5KtN9z6DxdP4DQ2p8-puS2QKlEVkqe_onNFbS1mFEdM'

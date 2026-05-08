@@ -1,0 +1,47 @@
+:root {
+  --panel-bg: rgba(12, 12, 40, 0.94);
+}
+
+body {
+  font-family: 'Microsoft YaHei', 'PingFang SC', sans-serif;
+}
+
+/* Desktop panel */
+.control-panel {
+  position: absolute; top: 10px; left: 10px; bottom: 10px;
+  width: 320px; background: var(--panel-bg); color: #eee;
+  padding: 12px; border-radius: 10px; border: 1px solid #444;
+  z-index: 10; overflow-y: auto; font-size: 12px;
+  display: flex; flex-direction: column; gap: 4px;
+}
+
+.control-panel::-webkit-scrollbar { width: 4px; }
+.control-panel::-webkit-scrollbar-thumb { background: #555; border-radius: 2px; }
+
+.panel-handle { display: none; }
+
+/* Mobile */
+@media (max-width: 768px) {
+  .control-panel {
+    position: fixed; top: auto; left: 0; right: 0; bottom: 0;
+    width: 100%; height: 60vh; border-radius: 16px 16px 0 0;
+    padding: 8px 12px 20px; transform: translateY(calc(100% - 48px));
+    transition: transform 0.3s ease;
+  }
+  .control-panel.open { transform: translateY(0); }
+  .panel-handle {
+    display: flex; justify-content: center; padding: 8px 0;
+    cursor: pointer; position: sticky; top: 0; background: inherit; z-index: 1;
+  }
+  .panel-handle::after {
+    content: ''; width: 40px; height: 4px;
+    background: #666; border-radius: 2px;
+  }
+  input[type=range] { min-height: 44px; }
+  button { min-height: 44px; }
+  .sat-items { flex-wrap: nowrap; overflow-x: auto; }
+}
+
+@media (max-width: 768px) {
+  .cesium-viewer-bottom { bottom: 52px !important; }
+}
