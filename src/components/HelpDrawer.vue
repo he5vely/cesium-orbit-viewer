@@ -3,7 +3,7 @@
     <button class="help-toggle" @click="open = !open" :title="open ? '关闭' : '这是什么？'">
       {{ open ? '✕' : '?' }}
     </button>
-    <div class="help-content" v-show="open">
+    <div class="help-content" v-show="open" @touchmove.stop @wheel.stop>
       <h3>卫星轨道可视化系统</h3>
       <p>这是一个在 3D 地球上实时展示人造卫星运行轨迹的工具。</p>
 
@@ -72,6 +72,7 @@ const open = ref(false)
 }
 .help-drawer.open {
   bottom: 10px;
+  pointer-events: auto;
 }
 .help-drawer:not(.open) {
   width: 40px; height: 40px;
@@ -91,6 +92,7 @@ const open = ref(false)
 .help-content {
   flex: 1; overflow-y: auto; padding: 16px 16px 16px 12px;
   font-size: 12px; line-height: 1.7;
+  touch-action: pan-y; overscroll-behavior: contain;
 }
 .help-content::-webkit-scrollbar { width: 3px; }
 .help-content::-webkit-scrollbar-thumb { background: #555; border-radius: 2px; }
