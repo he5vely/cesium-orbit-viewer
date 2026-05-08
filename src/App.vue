@@ -1,6 +1,7 @@
 <template>
   <div class="app-root">
     <CesiumViewer ref="cesiumRef" />
+    <HelpDrawer />
     <div class="version-badge">{{ VERSION }}</div>
 
     <div :class="['control-panel', { open: panelOpen, collapsed: panelCollapsed }]"
@@ -47,6 +48,7 @@ import CoordDisplay from './components/CoordDisplay.vue'
 import ErrorChart from './components/ErrorChart.vue'
 import OrbitForecast from './components/OrbitForecast.vue'
 import TimeControls from './components/TimeControls.vue'
+import HelpDrawer from './components/HelpDrawer.vue'
 import { createStore } from './store.js'
 import { generateStateVectorOrbit } from './engines/stateVector.js'
 import { generateOrbitalOrbit, forecastPoints } from './engines/orbitalElements.js'
