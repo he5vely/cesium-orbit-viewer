@@ -1,4 +1,4 @@
-import { GM, OMEGA_E } from '../utils/constants.js'
+import { GM } from '../utils/constants.js'
 
 /**
  * Keplerian elements to ECI cartesian coordinates (returns meters)
@@ -16,17 +16,6 @@ export function kepToCart(a, e, i, raan, argp, nu) {
   const y = r * (Math.sin(raan) * cosArgNu + Math.cos(raan) * sinArgNu * Math.cos(i))
   const z = r * (sinArgNu * Math.sin(i))
   return { x, y, z }
-}
-
-/** ECI to ECEF via Earth rotation correction (dt = elapsed seconds since epoch) */
-function eci2ecef(x, y, z, dt) {
-  const theta = OMEGA_E * dt
-  const cosT = Math.cos(theta), sinT = Math.sin(theta)
-  return {
-    x: x * cosT + y * sinT,
-    y: -x * sinT + y * cosT,
-    z
-  }
 }
 
 /** Solve Kepler's equation: M = E - e*sin(E) */
@@ -57,11 +46,10 @@ export function generateOrbitalOrbit(a, e, i, raan, argp, prn, startTime, hours 
     const E = solveKepler(M, e)
     const nu = trueAnomaly(E, e)
     const cart = kepToCart(a, e, i, raan, argp, nu)
-    const ecef = eci2ecef(cart.x, cart.y, cart.z, dt)
     result.push({
       prn,
       time: new Date(startTime.getTime() + dt * 1000),
-      ...ecef
+      ...cart
     })
   }
 

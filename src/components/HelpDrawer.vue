@@ -106,14 +106,16 @@ const open = ref(false)
 
 @media (max-width: 768px) {
   .help-drawer {
-    top: auto; bottom: 8px; right: 8px;
-    width: auto; max-height: 50vh;
+    top: 10px; bottom: auto; right: 10px;
+    width: 90vw; max-width: 360px; max-height: 70vh;
   }
   .help-drawer:not(.open) {
-    width: 40px;
-    height: 40px;
-    bottom: 56px;
+    width: 36px; height: 36px; top: 10px; right: 10px;
+    max-height: none; border: none; background: none;
   }
-  .help-content { max-height: 40vh; }
+  .help-content {
+    max-height: 65vh; overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
 }
 </style>

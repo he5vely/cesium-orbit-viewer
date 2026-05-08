@@ -110,7 +110,6 @@ function clearAndDraw(orbits) {
     const satOrbits = orbits.filter(o => o.prn === sat.prn)
     if (satOrbits.length < 2) return
     const positions = satOrbits.map(o => Cesium.Cartesian3.fromElements(o.x, o.y, o.z))
-    positions.push(positions[0].clone())  // force visual closure
     const color = Cesium.Color.fromCssColorString(sat.color)
 
     // Glow layer — wider, translucent solid line

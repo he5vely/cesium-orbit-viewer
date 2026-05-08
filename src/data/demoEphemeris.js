@@ -89,21 +89,15 @@ export function generateDemoSP3() {
       const cosU = Math.cos(argLat), sinU = Math.sin(argLat)
       const cosI = Math.cos(sat.i), sinI = Math.sin(sat.i)
 
-      // ECI
       const xEci = r * (Math.cos(sat.raan) * cosU - Math.sin(sat.raan) * sinU * cosI)
       const yEci = r * (Math.sin(sat.raan) * cosU + Math.cos(sat.raan) * sinU * cosI)
       const zEci = r * (sinU * sinI)
 
-      // Convert to ECEF (apply Earth rotation)
-      const OMEGA_E = 7.2921151467e-5
-      const theta = OMEGA_E * dt
-      const cosT = Math.cos(theta), sinT = Math.sin(theta)
-
       points.push({
         prn: sat.prn,
         time: new Date(baseDate.getTime() + dt * 1000),
-        x: (xEci * cosT + yEci * sinT) / 1000,   // ECEF km
-        y: (-xEci * sinT + yEci * cosT) / 1000,
+        x: xEci / 1000,
+        y: yEci / 1000,
         z: zEci / 1000
       })
     }
