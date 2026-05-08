@@ -213,7 +213,6 @@ function onStateVectorCompute(params) {
     params.stepSize, 'SV01'
   )
   clearAndDraw(orbits)
-  panelOpen.value = false
 }
 
 function onOrbitalCompute() {
@@ -254,7 +253,6 @@ function onEphemerisCompute() {
   prnSet.forEach(prn => {
     store.errors.push(...calcErrors(ephemerisData.rinex, ephemerisData.sp3, prn, new Date(), 6, 300))
   })
-  panelOpen.value = false
 }
 
 function onForecast(hours) {
