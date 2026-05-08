@@ -100,12 +100,31 @@ function clearAndDraw(orbits) {
     const positions = satOrbits.map(o => Cesium.Cartesian3.fromElements(o.x, o.y, o.z))
     const color = Cesium.Color.fromCssColorString(sat.color)
 
+    // Glow layer — wider, translucent solid line
+    viewer.entities.add({
+      polyline: { positions, width: 6, material: color.withAlpha(0.18) }
+    })
+
+    // Main dashed line
     sat.trajectoryEntity = viewer.entities.add({
-      polyline: { positions, width: 2, material: color }
+      polyline: {
+        positions,
+        width: 2,
+        material: new Cesium.PolylineDashMaterialProperty({
+          color,
+          dashLength: 24
+        })
+      }
+    })
+
+    // Satellite point with glow ring
+    viewer.entities.add({
+      position: positions[0],
+      point: { pixelSize: 16, color: color.withAlpha(0.25) }
     })
     sat.pointEntity = viewer.entities.add({
       position: positions[0],
-      point: { pixelSize: 8, color }
+      point: { pixelSize: 7, color, outlineColor: Cesium.Color.WHITE, outlineWidth: 1 }
     })
   })
 

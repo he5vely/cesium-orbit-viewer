@@ -1,6 +1,6 @@
 import { reactive } from 'vue'
 
-const COLORS = ['#FF4444','#44FF44','#4488FF','#FFD700','#FF44FF','#00FFFF','#FF8800','#88FF88']
+const COLORS = ['#00E5FF','#76FF03','#FF4081','#FFD740','#7C4DFF','#00FFD0','#FF6E40','#40C4FF']
 
 export function createStore() {
   return reactive({
