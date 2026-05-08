@@ -4,6 +4,11 @@
     <HelpDrawer />
     <div class="version-badge">{{ VERSION }}</div>
 
+    <!-- Desktop toggle — always visible, outside panel -->
+    <button class="panel-toggle" @click="panelCollapsed = !panelCollapsed" :title="panelCollapsed ? '展开面板' : '收起面板'">
+      {{ panelCollapsed ? '▶' : '◀' }}
+    </button>
+
     <!-- Mobile FAB trigger -->
     <button :class="['mobile-fab', { hidden: panelOpen }]" @click="openPanel">
       ⚙
@@ -15,9 +20,6 @@
     </button>
 
     <div :class="['control-panel', { open: panelOpen, collapsed: panelCollapsed }]">
-      <button class="panel-toggle" @click="panelCollapsed = !panelCollapsed" :title="panelCollapsed ? '展开' : '收起'">
-        {{ panelCollapsed ? '◀' : '▶' }}
-      </button>
 
       <div class="panel-content" v-show="!panelCollapsed">
         <ModeSelector @modeChange="onModeChange" />
