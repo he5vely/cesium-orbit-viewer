@@ -62,22 +62,30 @@ const open = ref(false)
 
 <style scoped>
 .help-drawer {
-  position: absolute; top: 10px; right: 10px; bottom: 10px;
-  width: 300px; background: rgba(12, 12, 40, 0.93); color: #ddd;
+  position: absolute; top: 10px; right: 10px;
+  width: 300px; max-height: calc(100vh - 20px);
+  background: rgba(12, 12, 40, 0.93); color: #ddd;
   border: 1px solid #444; border-radius: 10px; z-index: 10;
-  transition: width 0.3s ease; overflow: hidden;
+  transition: width 0.3s ease, height 0.3s ease; overflow: hidden;
   display: flex; flex-direction: row-reverse;
+  pointer-events: none;
+}
+.help-drawer.open {
+  bottom: 10px;
 }
 .help-drawer:not(.open) {
-  width: 40px;
+  width: 40px; height: 40px;
+  border: none; background: none;
+  overflow: visible;
 }
 .help-toggle {
-  position: absolute; top: 10px; right: 8px;
+  position: absolute; top: 6px; right: 6px;
   width: 28px; height: 28px; border-radius: 50%;
   background: #0055aa; color: #fff; border: none;
   font-size: 14px; font-weight: bold; cursor: pointer;
   z-index: 2; flex-shrink: 0; min-height: 0;
   display: flex; align-items: center; justify-content: center;
+  pointer-events: auto;
 }
 .help-toggle:hover { background: #0077cc; }
 .help-content {
