@@ -70,10 +70,25 @@ export function calcSP3(points, prn, t) {
 /**
  * Generate ephemeris orbit sequence
  */
-export function generateEphemerisOrbit(ephList, sp3List, prn, start, hours = 6, step = 60) {
+export function generateEphemerisOrbit(ephList, sp3List, prn, start, step = 60) {
   const result = []
-  const total = hours * 3600 / step
   const eph = ephList.find(e => e.prn === prn)
+
+  // Calculate orbital period from broadcast ephemeris or SP3 data
+  let period = 5400 // default 90 min
+  if (eph) {
+    const a = eph.sqrtA ** 2
+    period = 2 * Math.PI * Math.sqrt(a * a * a / GM)
+  } else {
+    const sp3Pts = sp3List.filter(p => p.prn === prn).sort((a, b) => a.time - b.time)
+    if (sp3Pts.length >= 3) {
+      const dt = (sp3Pts[sp3Pts.length-1].time - sp3Pts[0].time) / 1000
+      // Rough period from 3-point arc — use half of 3-revolution or full span
+      period = dt * 0.5
+    }
+  }
+
+  const total = Math.floor(period / step)
 
   for (let i = 0; i <= total; i++) {
     const t = new Date(start.getTime() + i * step * 1000)

@@ -161,7 +161,7 @@ function onStateVectorCompute(params) {
   store.reset()
   const orbits = generateStateVectorOrbit(
     [params.x, params.y, params.z, params.vx, params.vy, params.vz],
-    params.duration, params.stepSize, 'SV01'
+    params.stepSize, 'SV01'
   )
   clearAndDraw(orbits)
   panelOpen.value = false
@@ -196,7 +196,7 @@ function onEphemerisCompute() {
   ephemerisData.sp3.forEach(e => prnSet.add(e.prn))
 
   prnSet.forEach(prn => {
-    const orbits = generateEphemerisOrbit(ephemerisData.rinex, ephemerisData.sp3, prn, new Date(), 6, 60)
+    const orbits = generateEphemerisOrbit(ephemerisData.rinex, ephemerisData.sp3, prn, new Date(), 60)
     allOrbits.push(...orbits)
   })
   clearAndDraw(allOrbits)

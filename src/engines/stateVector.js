@@ -22,10 +22,17 @@ function rk45Step(f, t, y, h) {
 
 /**
  * Generate orbit sequence from state vector [x, y, z, vx, vy, vz] (km, km/s)
+ * Automatically calculates orbital period and generates exactly one full orbit.
  * Returns array of { prn, time: Date, x: meters, y: meters, z: meters }
  */
-export function generateStateVectorOrbit(initialState, duration, step, prn) {
+export function generateStateVectorOrbit(initialState, step, prn) {
   const state0 = initialState.map(v => v * 1000)
+  const r = Math.hypot(state0[0], state0[1], state0[2])
+  const v2 = state0[3]**2 + state0[4]**2 + state0[5]**2
+  const a = 1 / (2/r - v2/GM)
+  const period = 2 * Math.PI * Math.sqrt(a*a*a / GM)
+  const duration = period
+
   const result = []
   const startTime = new Date()
   let t = 0
@@ -42,6 +49,13 @@ export function generateStateVectorOrbit(initialState, duration, step, prn) {
       x: y[0], y: y[1], z: y[2]
     })
   }
+
+  // Close the orbit by adding one more point at exactly the period
+  result.push({
+    prn,
+    time: new Date(startTime.getTime() + duration * 1000),
+    x: y[0], y: y[1], z: y[2]
+  })
 
   return result
 }
