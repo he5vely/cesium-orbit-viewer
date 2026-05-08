@@ -75,6 +75,7 @@ export function generateEphemerisOrbit(ephList, sp3List, prn, start, step = 60) 
   const eph = ephList.find(e => e.prn === prn)
 
   // Calculate orbital period from broadcast ephemeris or SP3 data
+  // GPS orbit: ~12 sidereal hours, 2 orbits = 1 sidereal day ground track repeat
   let period = 5400 // default 90 min
   if (eph) {
     const a = eph.sqrtA ** 2
@@ -83,10 +84,10 @@ export function generateEphemerisOrbit(ephList, sp3List, prn, start, step = 60) 
     const sp3Pts = sp3List.filter(p => p.prn === prn).sort((a, b) => a.time - b.time)
     if (sp3Pts.length >= 3) {
       const dt = (sp3Pts[sp3Pts.length-1].time - sp3Pts[0].time) / 1000
-      // Rough period from 3-point arc — use half of 3-revolution or full span
       period = dt * 0.5
     }
   }
+  period *= 2  // 2 orbits for GPS ground track closure in ECEF
 
   const total = Math.floor(period / step)
 

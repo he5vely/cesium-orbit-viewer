@@ -31,7 +31,7 @@ export function generateStateVectorOrbit(initialState, step, prn) {
   const v2 = state0[3]**2 + state0[4]**2 + state0[5]**2
   const a = 1 / (2/r - v2/GM)
   const period = 2 * Math.PI * Math.sqrt(a*a*a / GM)
-  const duration = period
+  const duration = period * 3  // 3 orbits for visual closure in ECEF
 
   const result = []
   const startTime = new Date()
