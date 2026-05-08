@@ -38,12 +38,12 @@ function fmtM(v) { return (v / 1000).toFixed(3) + ' km' }
 </script>
 
 <style scoped>
-.coord-panel { margin-top: 8px; padding: 8px; background: rgba(20,20,50,0.7); border-radius: 8px; }
-.coord-title { color: #0ff; font-size: 13px; font-weight: bold; margin-bottom: 6px; }
+.coord-panel { margin-top: 6px; padding: 8px; background: var(--bg-card); border-radius: var(--radius-sm); border: 1px solid var(--border); }
+.coord-title { color: var(--accent); font-size: 12px; font-weight: 600; margin-bottom: 6px; }
 .coord-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; }
-.coord-section { font-size: 11px; color: #ccc; min-width: 0; }
-.coord-label { color: #fc0; margin-bottom: 2px; font-weight: bold; }
-.coord-val { font-family: monospace; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.error-line { margin-top: 6px; font-size: 11px; color: #ff9; display: flex; flex-wrap: wrap; gap: 8px; }
+.coord-section { font-size: 10px; color: var(--text); min-width: 0; }
+.coord-label { color: var(--accent2); margin-bottom: 2px; font-weight: 600; font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; }
+.coord-val { font-family: 'JetBrains Mono', 'Cascadia Code', monospace; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text-muted); }
+.error-line { margin-top: 6px; font-size: 10px; color: var(--warn); display: flex; flex-wrap: wrap; gap: 8px; }
 @media (max-width: 768px) { .coord-grid { grid-template-columns: 1fr; } }
 </style>

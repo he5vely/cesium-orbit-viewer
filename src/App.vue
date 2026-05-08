@@ -4,9 +4,17 @@
     <HelpDrawer />
     <div class="version-badge">{{ VERSION }}</div>
 
-    <div :class="['control-panel', { open: panelOpen, collapsed: panelCollapsed }]"
-         @touchstart.passive="onTouchStart" @touchend="onTouchEnd">
-      <div class="panel-handle" @click="panelOpen = !panelOpen"></div>
+    <!-- Mobile FAB trigger -->
+    <button :class="['mobile-fab', { hidden: panelOpen }]" @click="openPanel">
+      ⚙
+    </button>
+
+    <!-- Panel close button (mobile only) -->
+    <button :class="['panel-close-btn', { hidden: !panelOpen }]" @click="panelOpen = false">
+      ✕
+    </button>
+
+    <div :class="['control-panel', { open: panelOpen, collapsed: panelCollapsed }]">
       <button class="panel-toggle" @click="panelCollapsed = !panelCollapsed" :title="panelCollapsed ? '展开' : '收起'">
         {{ panelCollapsed ? '◀' : '▶' }}
       </button>
@@ -74,16 +82,10 @@ function onEphemerisData(data) {
   }
 }
 
-// Mobile touch
-let touchStartY = 0
-function onTouchStart(e) { touchStartY = e.touches[0].clientY }
-function onTouchEnd(e) {
-  const dy = e.changedTouches[0].clientY - touchStartY
-  if (dy < -30) panelOpen.value = true
-  if (dy > 30) panelOpen.value = false
+function openPanel() { panelOpen.value = true }
+function onModeChange() {
+  if (window.innerWidth <= 768) panelOpen.value = false
 }
-
-function onModeChange() { panelOpen.value = false }
 
 // ====== Orbit Drawing ======
 

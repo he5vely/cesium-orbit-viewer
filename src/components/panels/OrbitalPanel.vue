@@ -125,29 +125,34 @@ defineExpose({ satParams, currentIdx })
 </script>
 
 <style scoped>
-.orbital-panel { display: flex; flex-direction: column; gap: 6px; }
-.section-title { color: #0ff; font-size: 14px; font-weight: bold; }
-.sat-tabs { display: flex; gap: 4px; flex-wrap: wrap; }
+.orbital-panel { display: flex; flex-direction: column; gap: 5px; }
+.section-title { color: var(--accent); font-size: 12px; font-weight: 600; }
+.sat-tabs { display: flex; gap: 3px; flex-wrap: wrap; }
 .sat-tab {
-  padding: 6px 12px; border: 1px solid #555; background: #1a1a3e;
-  color: #ccc; border-radius: 6px; cursor: pointer; font-size: 12px;
+  padding: 5px 10px; border: 1px solid var(--border); background: transparent;
+  color: var(--text-muted); border-radius: var(--radius-sm); cursor: pointer; font-size: 10px;
+  transition: all 0.15s;
 }
-.sat-tab.active { background: #0055aa; color: #fff; border-color: #0088ff; }
+.sat-tab:hover { border-color: var(--accent); color: var(--text); }
+.sat-tab.active { background: rgba(0,229,255,0.08); color: var(--accent); border-color: rgba(0,229,255,0.3); }
 .sat-tab.add-btn { font-weight: bold; }
-.del-sat { margin-left: 4px; color: #f66; font-size: 14px; line-height: 1; vertical-align: middle; }
-.del-sat:hover { color: #f00; }
-.slider-group { display: flex; flex-direction: column; gap: 6px; }
+.del-sat { margin-left: 3px; color: rgba(255,82,82,0.5); font-size: 13px; line-height: 1; vertical-align: middle; }
+.del-sat:hover { color: var(--danger); }
+.slider-group { display: flex; flex-direction: column; gap: 4px; }
 .slider-item { display: flex; flex-direction: column; gap: 2px; }
-.slider-item label { color: #fc0; font-size: 11px; }
-.slider-item .val { color: #0ff; font-weight: bold; }
-input[type=range] { width: 100%; min-height: 36px; accent-color: #0088ff; }
-.nonsingular-info { font-size: 11px; color: #f90; }
-.tle-toggle { color: #fc0; font-size: 12px; cursor: pointer; }
-.tle-text { width: 100%; height: 60px; background: #1a1a3e; color: #fff; border: 1px solid #555; border-radius: 4px; resize: vertical; font-size: 11px; margin-top: 4px; padding: 4px; }
+.slider-item label { color: var(--text-muted); font-size: 10px; }
+.slider-item .val { color: var(--accent); font-weight: 600; }
+input[type=range] { width: 100%; min-height: 32px; accent-color: var(--accent); }
+.nonsingular-info { font-size: 10px; color: var(--warn); padding: 4px 6px; background: rgba(255,215,64,0.06); border-radius: var(--radius-sm); }
+.tle-toggle { color: var(--text-muted); font-size: 11px; cursor: pointer; }
+.tle-text { width: 100%; height: 56px; background: var(--bg-input); color: var(--text); border: 1px solid var(--border); border-radius: var(--radius-sm); resize: vertical; font-size: 10px; margin-top: 4px; padding: 6px; font-family: monospace; }
 .action-btn {
-  padding: 12px; background: #0055aa; color: #fff; border: none;
-  border-radius: 8px; cursor: pointer; font-size: 14px; min-height: 44px;
+  padding: 10px; background: rgba(124,77,255,0.08); color: var(--accent2);
+  border: 1px solid rgba(124,77,255,0.2); border-radius: var(--radius-sm);
+  cursor: pointer; font-size: 12px; min-height: 38px; font-weight: 600;
+  transition: all 0.15s;
 }
-.action-btn.sm { padding: 8px; font-size: 12px; margin-top: 4px; }
-.action-btn:hover { background: #0066cc; }
+.action-btn:hover { background: rgba(124,77,255,0.15); border-color: var(--accent2); }
+.action-btn.sm { padding: 7px; font-size: 10px; margin-top: 4px; background: rgba(255,255,255,0.03); color: var(--text-muted); border: 1px solid var(--border); }
+.action-btn.sm:hover { color: var(--text); border-color: var(--border-glow); }
 </style>

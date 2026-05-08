@@ -28,11 +28,15 @@ function switchMode(mode) {
 </script>
 
 <style scoped>
-.mode-selector { display: flex; gap: 4px; margin-bottom: 8px; }
+.mode-selector { display: flex; gap: 2px; padding: 2px; background: rgba(255,255,255,0.03); border-radius: 8px; }
 .mode-btn {
-  flex: 1; padding: 8px 4px; border: 1px solid #555;
-  background: #1a1a3e; color: #999; border-radius: 6px;
-  cursor: pointer; font-size: 13px; transition: all 0.2s;
+  flex: 1; padding: 7px 4px; border: 1px solid transparent;
+  background: transparent; color: var(--text-muted); border-radius: 6px;
+  cursor: pointer; font-size: 11px; transition: all 0.2s; font-weight: 500;
 }
-.mode-btn.active { background: #0055aa; color: #fff; border-color: #0088ff; }
+.mode-btn:hover { color: var(--text); background: rgba(255,255,255,0.03); }
+.mode-btn.active {
+  background: rgba(0, 229, 255, 0.1); color: var(--accent);
+  border-color: rgba(0, 229, 255, 0.3);
+}
 </style>

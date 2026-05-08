@@ -73,20 +73,22 @@ async function onSP3(e) {
 </script>
 
 <style scoped>
-.eph-panel { display: flex; flex-direction: column; gap: 8px; }
-.section-title { color: #0ff; font-size: 14px; font-weight: bold; }
-.load-status { font-size: 12px; padding: 6px 8px; border-radius: 4px; }
-.load-status { color: #fc0; }
-.load-status.loaded { color: #0f0; }
-.upload-group { display: flex; flex-direction: column; gap: 4px; }
-.upload-label { color: #fc0; font-size: 12px; }
-.upload-toggle { color: #fc0; font-size: 12px; cursor: pointer; margin-top: 4px; }
-.file-input { padding: 6px; background: #1a1a3e; border: 1px solid #555; color: #fff; border-radius: 4px; font-size: 12px; }
-.file-hint { color: #0f0; font-size: 11px; }
+.eph-panel { display: flex; flex-direction: column; gap: 6px; }
+.section-title { color: var(--accent); font-size: 12px; font-weight: 600; }
+.load-status { font-size: 10px; padding: 5px 7px; border-radius: var(--radius-sm); }
+.load-status { color: var(--warn); }
+.load-status.loaded { color: var(--accent3); background: rgba(118,255,3,0.05); }
+.upload-group { display: flex; flex-direction: column; gap: 3px; }
+.upload-label { color: var(--text-muted); font-size: 10px; }
+.upload-toggle { color: var(--text-muted); font-size: 10px; cursor: pointer; margin-top: 2px; }
+.file-input { padding: 6px; background: var(--bg-input); border: 1px solid var(--border); color: var(--text); border-radius: var(--radius-sm); font-size: 10px; }
+.file-hint { color: var(--accent3); font-size: 10px; }
 .action-btn {
-  padding: 12px; background: #0055aa; color: #fff; border: none;
-  border-radius: 8px; cursor: pointer; font-size: 14px; min-height: 44px;
+  padding: 10px; background: rgba(0,229,255,0.08); color: var(--accent);
+  border: 1px solid rgba(0,229,255,0.2); border-radius: var(--radius-sm);
+  cursor: pointer; font-size: 12px; min-height: 38px; font-weight: 600;
+  transition: all 0.15s;
 }
-.action-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-.action-btn:hover:not(:disabled) { background: #0066cc; }
+.action-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+.action-btn:hover:not(:disabled) { background: rgba(0,229,255,0.15); border-color: var(--accent); }
 </style>

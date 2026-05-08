@@ -33,10 +33,10 @@ onMounted(() => {
       responsive: true,
       maintainAspectRatio: false,
       scales: {
-        x: { ticks: { color: '#888' }, grid: { color: '#333' } },
-        y: { ticks: { color: '#888' }, grid: { color: '#333' } }
+        x: { ticks: { color: '#8890B0' }, grid: { color: 'rgba(255,255,255,0.04)' } },
+        y: { ticks: { color: '#8890B0' }, grid: { color: 'rgba(255,255,255,0.04)' } }
       },
-      plugins: { legend: { labels: { color: '#ccc' } } }
+      plugins: { legend: { labels: { color: '#8890B0', font: { size: 10 } } } }
     }
   })
 })
